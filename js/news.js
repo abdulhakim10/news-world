@@ -41,10 +41,11 @@ const displayNewsData = newses => {
 
     newses.forEach(news => {
         const newsDiv = document.createElement('div');
+        // console.log(news)
         newsDiv.innerHTML = `
-        <a href="#"
+        <a href="#" 
                     class="flex flex-col items-center bg-white rounded-lg border shadow-md md:flex-row md:max-w-full hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray my-8">
-                    <img class="object-cover  rounded-t-lg md:h-auto md:w-1/2 md:rounded-none md:rounded-l-lg m-4"
+                    <img class="object-cover  rounded-t-lg md:h-auto md:w-1/2 md:rounded-none md:rounded-l-lg "
                         src="${news.thumbnail_url}" alt="">
                     <div class="flex flex-col justify-between p-4 leading-normal">
                         <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-gray-400 hover:text-black">${news.title}</h5>
@@ -57,7 +58,7 @@ const displayNewsData = newses => {
                         </div>
                         </figcaption>
                         <div class="flex justify-center items-center font-medium dark:text-gray-400 text-left hover:text-black">
-                             <div class="m-2"><i class="fa-solid fa-eye"></i> ${news.total_view}</div>
+                             <div class="m-2"><i class="fa-solid fa-eye"></i> ${news.total_view ? news.total_view : 'Data Not Founded'}</div>
                             <div class="m-2 font-medium dark:text-gray-400 text-left hover:text-black">
                             <i class="fa-sharp fa-solid fa-star"></i>
                             <i class="fa-sharp fa-solid fa-star"></i>
@@ -67,10 +68,35 @@ const displayNewsData = newses => {
                             </div>
                             <div class="m-2 font-medium dark:text-gray-400 text-left hover:text-black">${news.rating.number}</div>
                         </div>
-                       
+                        <!-- The button to open modal -->
+                        <label onclick="loadNewsDetails('${news._id}')" for="my-modal-6" class="btn modal-button mt-8 w-1/3 mx-auto bg-blue-600 text-white">View Details</label>
+
+
+                        
+                
         `;
         newsContainer.appendChild(newsDiv);
     })
+}
+
+const loadNewsDetails = async news_id => {
+    const url = `https://openapi.programming-hero.com/api/news/${news_id}`
+    const res = await fetch(url);
+    const data = await res.json();
+    displayNewsDetails(data.data[0]);
+}
+
+const displayNewsDetails = details => {
+    const modalTitle = document.getElementById('modal-title');
+    modalTitle.innerText = details.title;
+    const authorPublish = document.getElementById('autho-publish');
+    authorPublish.innerText = details.author.published_date;
+    const modalImg = document.getElementById('modal-img');
+    modalImg.innerHTML = `
+   <img src="${details.image_url}" alt="">
+   `
+
+
 }
 
 loadNewsData("08")
