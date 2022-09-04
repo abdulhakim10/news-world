@@ -30,6 +30,18 @@ const loadNewsData = (category_id) => {
 }
 
 const displayNewsData = newses => {
+    // console.log(newses.length)
+
+    if (newses.length > 0) {
+        const newsItem = document.getElementById('not-found')
+        newsItem.innerText = newses.length + " Items Found"
+
+    } else {
+        const newsItem = document.getElementById('not-found')
+        newsItem.textContent = ""
+        newsItem.innerText = "No Items Found"
+    }
+
 
     const newsContainer = document.getElementById('news-container');
     newsContainer.innerHTML = '';
@@ -51,7 +63,7 @@ const displayNewsData = newses => {
                         src="${news.thumbnail_url}" alt="">
                     <div class="flex flex-col justify-between p-4 leading-normal">
                         <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-gray-400 hover:text-black">${news.title}</h5>
-                        <p class="mb-3 font-normal text-gray-700 dark:text-gray-400 hover:text-black">${news.details.slice(0, 300)}</p>
+                        <p class="mb-3 font-normal text-gray-700 dark:text-gray-400 hover:text-black">${news.details.length > 300 ? news.details.slice(0, 300) + '...' : news.details}</p>
                         <figcaption class="flex justify-center items-center space-x-3">
                         <img class="w-9 h-9 rounded-full" src="${news.author.img}" alt="profile picture">
                         <div class="space-y-0.5 font-medium dark:text-gray-400 text-left hover:text-black">
