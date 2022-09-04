@@ -53,7 +53,10 @@ const displayNewsData = newses => {
         noFound.classList.add('hidden')
     }
 
-    newses.forEach(news => {
+    // sort by biew
+    const sortedData = newses.sort((a, b) => b.total_view - a.total_view);
+
+    sortedData.forEach(news => {
         const newsDiv = document.createElement('div');
 
         newsDiv.innerHTML = `
